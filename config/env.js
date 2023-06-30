@@ -1,7 +1,8 @@
 //env =   environment variable
 
 const DEVELOPMENT = {
-    port:8000
+    port:8000,
+    mongodbUrl:"mongodb://127.0.0.1:27017/EMPLOYEE_REVIEW_SYSTEM_DEVELOPMENT"
 };
 const PRODUCTION = {};
 
