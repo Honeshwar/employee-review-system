@@ -8,33 +8,42 @@
         <%= error %>
       </div>
       <%}%>
-        <form class="row g-3" action="/signup" method="post">
-          <div class="col-md-12">
-            <label for="employeeName" class="form-label">Employee Name</label>
-            <input placeholder="@employee name" type="text" class="form-control" id="employeeName" name="name">
-          </div>
-          <div class="col-md-12">
-            <label for="employeeEmail" class="form-label">Email</label>
-            <input placeholder="email" type="email" class="form-control" id="employeeEmail" name="email">
-            <div class="form-text">We'll never share your email with anyone else.</div>
-          </div>
-          <div class="col-md-6">
-            <label for="employeePassword" class="form-label">Password</label>
-            <input placeholder="password" type="password" class="form-control" id="employeePassword" name="password">
-          </div>
-          <div class="col-md-6">
-            <label for="employeeConfirmPassword" class="form-label">Confirm Password</label>
-            <input placeholder="confirm password" type="password" class="form-control" id="employeeConfirmPassword"
-              name="confirm_password">
-          </div>
-          <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="showPassword" onclick="visiblePass()">
-            <label class="form-check-label" for="showPassword">Show Both Password</label>
-          </div>
-          <div class="col-12">
-            <button title="signup and redirect to home" type="submit" class="btn btn-primary">Sign Up</button>
-          </div>
-        </form>
+      <form class="row g-3" action="/signup" method="post">
+        <div class="col-sm-12">
+          <label for="employeeName" class="form-label">Employee Name / Admin Name</label>
+          <input placeholder="@username" type="text" class="form-control" id="employeeName" name="name">
+        </div>
+        <div class="col-sm-12">
+          <label for="employeeEmail" class="form-label">Email</label>
+          <input placeholder="email" type="email" class="form-control" id="employeeEmail" name="email">
+          <div class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="col-sm-6">
+          <label for="employeePassword" class="form-label">Password</label>
+          <input placeholder="password" type="password" class="form-control" id="employeePassword" name="password">
+        </div>
+        <div class="col-sm-6">
+          <label for="employeeConfirmPassword" class="form-label">Confirm Password</label>
+          <input placeholder="confirm password" type="password" class="form-control" id="employeeConfirmPassword"
+            name="confirm_password">
+        </div>
+        <div class="mb-3 form-check" style="margin-left: 20px;">
+          <input type="checkbox" class="form-check-input" id="showPassword" onclick="visiblePass()">
+          <label class="form-check-label" for="showPassword"><small style="color: gray;">Show Password</small></label>
+        </div>
+        <div class="col-sm-12">
+          <label for="select" class="form-label">Select Your Role:</label>
+          <select name="role" id="select" class="form-select" aria-label="Default select example">
+              <option selected value="employee">Employee</option>
+              <option value="admin">Admin</option>
+            </select>
+        </div>
+        <div class="col-sm-12">
+          <button title="signin and redirect to home" type="submit" class="btn btn-primary">Sign In</button>
+        </div>
+
+      </form>
+
 
   </div>
 

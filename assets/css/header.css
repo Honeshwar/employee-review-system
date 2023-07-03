@@ -1,0 +1,18 @@
+
+  #brand-name{
+    font-size: 1.62rem;
+    font-family: cursive;
+    text-shadow: 0 0 1px rgb(8, 8, 8);
+  }
+  a{
+    text-shadow: 0 0 1px black;
+  }
+  a:hover{
+    border-bottom:1px solid rgb(4, 6, 95);
+  }
+  #navbar{
+    background-color:bisque ;
+  }
+  #profile-pic{
+    width: 40px;
+  }
