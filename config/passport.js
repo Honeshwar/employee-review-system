@@ -50,7 +50,7 @@ passport.serializeUser(function(user, done) {
   passport.setAuthenticatedUser = async function(req,res,next){
     console.log("set Authenticated User executing");
     if(req.isAuthenticated()){
-      console.log("set Authenticated User executing",req.user);
+      console.log("set Authenticated User executing");
       res.locals.currentSessionUser = req.user;
     }
     next();

@@ -79,7 +79,7 @@ app.use(session({
 app.use('/',(req,res,next)=>{
     console.log('current requested url: ',req.url);
     // console.log('req cookies at entry point file',req.cookies);
-    console.log('current Session User',req.locals?.currentSessionUser);
+    // console.log('current Session User',req.locals?.currentSessionUser);
     next();
 });
 

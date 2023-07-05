@@ -31,7 +31,11 @@ module.exports.home = async function home(req,res) {
 // get signIn page controllers
 exports.signInPage = function signIn(req,res) {
     if(req.isAuthenticated()){
-        return res.redirect('/');
+        if(req.user?.role === 'admin'){
+            return res.redirect('/admin/dashboard');
+        }
+        return res.redirect(`/employee/dashboard/`);//${userInDb.id}
+    
     }
     return res.render('signIn.ejs',{title:"SignIn Form"});
 }
@@ -39,7 +43,11 @@ exports.signInPage = function signIn(req,res) {
 //get signUp page controllers
 exports.signUpPage =  function signUp(req,res) {
     if(req.isAuthenticated()){
-        return res.redirect('/');
+        if(req.user?.role === 'admin'){
+            return res.redirect('/admin/dashboard');
+        }
+        return res.redirect(`/employee/dashboard/`);//${userInDb.id}
+    
     }
     return res.render('signUp.ejs',{title:"SignUp Form"});
 
@@ -55,7 +63,7 @@ exports.signIn = async function signIn(req,res) {
     if(userInDb.role === 'admin'){
         return res.redirect('/admin/dashboard');
     }
-    return res.redirect('/employee/dashboard');
+    return res.redirect(`/employee/dashboard/`);//${userInDb.id}
 
     // failure will be handle by passport MW add in signIn route
 

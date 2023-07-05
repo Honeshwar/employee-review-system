@@ -12,8 +12,8 @@ router.get('/delete-employee/:id',adminControllers.deleteEmployee);
 
 //related to assign work to employee and view/add.update review
 router.get('/make-admin/:id',adminControllers.makeAdmin);
-router.post('/assign-review',adminControllers.assignReview);
-router.use('/review',require('./reviewRouter.js'));//req.url start /admin call this MW
+router.post('/assign-task-to-employee',adminControllers.assignTask);
+router.use('/feedback',require('./feedbackRouter.js'));//req.url start /admin call this MW
 
 
 module.exports = router;// single export only work , not use multiple work ho ga

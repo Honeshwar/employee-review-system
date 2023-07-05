@@ -17,10 +17,17 @@ const userSchema = new mongoose.Schema({//user = admin + employees
         type:String,
         required:true
     },
-    reviews:[
+    feedbacks:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            required:true
+            required:true,
+            ref:'Feedback'
+        }
+    ],
+    assignTasks:[ {
+            type:mongoose.Schema.Types.ObjectId,
+            required:true,
+            ref:'AssignTask'
         }
     ]
 },{timestamps:true});
