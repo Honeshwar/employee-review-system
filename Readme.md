@@ -115,15 +115,19 @@ npm start
 ## Project Screenshots
 
 - SignIn and SignUp pages Screenshots
-  ![App Screenshot](https://github.com/Honeshwar/employee-review-system/assets/images/1.png)
-  ![App Screenshot](https://github.com/Honeshwar/employee-review-system/assets/images/2.png)
+
+  ![App Screenshot](https://honeshwar.github.io/employee-review-system/assets/images/1.png)
+  ![App Screenshot](https://honeshwar.github.io/employee-review-system/assets/images/2.png)
 
 - Admin pages Screenshots
-  ![App Screenshot](https://github.com/Honeshwar/employee-review-system/assets/images/3.png)
-  ![App Screenshot](https://github.com/Honeshwar/employee-review-system/assets/images/4.png)
-  ![App Screenshot](https://github.com/Honeshwar/employee-review-system/assets/images/5.png)
-  ![App Screenshot](https://github.com/Honeshwar/employee-review-system/assets/images/6.png)
+
+  ![App Screenshot](https://honeshwar.github.io/employee-review-system/assets/images/3.png)
+  ![App Screenshot](https://honeshwar.github.io/employee-review-system/assets/images/4.png)
+  ![App Screenshot](https://honeshwar.github.io/employee-review-system/assets/images/5.png)
+  ![App Screenshot](https://honeshwar.github.io/employee-review-system/assets/images/6.png)
 
 - employee pages Screenshots
-  ![App Screenshot](https://github.com/Honeshwar/employee-review-system/assets/images/7.png)
-  ![App Screenshot](https://github.com/Honeshwar/employee-review-system/assets/images/8.png)
+
+  ![App Screenshot](https://honeshwar.github.io/employee-review-system/assets/images/7.png)
+  ![App Screenshot](https://honeshwar.github.io/employee-review-system/assets/images/8.png)
+  ![App Screenshot](https://honeshwar.github.io/employee-review-system/assets/images/9.png)
