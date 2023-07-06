@@ -52,10 +52,10 @@ exports.signIn = async function signIn(req,res) {
     try {
         const user = req.body;
         if(user.role === 'admin'){
-            req.flash('success','ADMIN : Successfully signIN / created session');
+            req.flash('success','Admin Successfully signIN ');// and created session');
             return res.redirect('/admin/dashboard');
         }
-        req.flash('success','Employee : Successfully signIN / created session');
+        req.flash('success','Employee Successfully signIn ');// and created session');
         return res.redirect(`/employee/dashboard/`);
 
         // failure will be handle by passport MW add in signIn route
@@ -140,12 +140,19 @@ exports.signUp = async function signUp(req,res) {
 
 //sign out controller
 exports.signOut = (req,res)=>{
+    const role = req.user.role;
     //removing session, so that user will logout
     req.logout(function(err) {
             if (err) { 
-                 console.log(err);
-                 return res.redirect('back')
-                }
+                console.log(err);
+                return res.redirect('back')
+            }
+            
+            if(role === "admin"){
+                req.flash('success','Admin Successfully signOut ');// and destroyed created session');
+            }else{
+                req.flash('success','Employee Successfully signOut ');// and destroyed created session');
+            }
             
             return res.redirect('/signin');
         }); 

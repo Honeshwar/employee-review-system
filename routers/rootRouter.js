@@ -1,7 +1,7 @@
 const express =require('express');
 const router = express.Router();//return MW
 const rootControllers = require('../controllers/rootControllers.js');
-
+const passport = require('passport');
 //routes
   router.get('/',rootControllers.home);
   router.get('/signIn',rootControllers.signInPage);

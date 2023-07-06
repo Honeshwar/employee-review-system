@@ -1,92 +1,12 @@
 <!-- <link rel="stylesheet" href="/css/feedback.css"> -->
 
 <main id="main">
- 
     <section id="list-of-feedbacks">
-        <% if( locals.feedbacks.length === 0 ){ %>
-           <div id="no-data-container">
-            <img style="height: fit-content;" src="https://cdn-icons-png.flaticon.com/128/7486/7486754.png" alt="no data picture" >
-            <h4>No Feedback is present in db, added Feedback will be displayed here...</h4>
-           </div>
-          <%}else{%>
-
-            <% let count = 1;
-                for(let i=0;i<feedbacks.length;i++){ %>
-                <div class="card" style="height: fit-content;">
-                    <h5 class="card-header">Feedback: <%= count %> </h5>
-                    <div class="card-body">
-                    <h5 class="card-title">
-                        From:
-                         <% let isAdminFeedback = false;
-                         if(feedbacks[i].from === null){ 
-                                const feedback = feedbackWithoutPopulate.find((feedback)=> feedback.id === feedbacks[i].id);
-                                if(feedback.from.toString() === admin.id){
-                                    isAdminFeedback = true;
-                                    %>
-                                    <small style="color: rgb(7, 136, 67);"><%= admin.name %> (Owner)</small>
-                                    <% }else{  %>
-                                    <small style="color: red;">(user not exist)</small>
-                              <% }
-                          }else{  %>
-                                <%= feedbacks[i].from.name %> 
-                                <small style="font-size: .7rem;"><i>(<%= feedbacks[i].from.role %>)</i></small>
-                          <%  } %>
-                    </h5>
-                    <p class="card-text">Review: <i> <%= feedbacks[i].feedback %></i></p>
-                    </div>
-                </div>  
-        <% count++; }}%>   
+       <%- include('../../partials/employee/_listOfFeedbacks.ejs') -%>;
     </section>
 
     <section id="feedback-modal-btn-container">
-        <!-- Button trigger modal -->
-        <button id="trigger-modal-btn" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addFeedbackModal" title="do Feedback to any employee/admin">
-            Do Feedback
-        </button>
-        
-        <!--add feedback Modal -->
-        <form action="/employee/feedback/add" method="post" class="modal fade" id="addFeedbackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog ">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Feedback Form</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">From:</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" "
-                        value="<%= locals?.currentSessionUser.name %>"
-                        disabled >
-
-                        <input type="hidden" name="from" value="<%= locals?.currentSessionUser.id %>" >
-                    </div>
-                    <div class="mb-3">
-                        <label for="select" class="form-label">To:</label>
-                        <select name="to" id="select" class="form-select" aria-label="Default select example" required>
-                           <% for(let employee of locals.employees){ %>
-                            <% if(employee.id === locals?.currentSessionUser.id || employee.role==='admin'){ continue;} %>
-                            <option value=<%= employee.id %> ><%= employee.name %> <% if(employee.role==='admin'){%>
-                                ( Admin )
-                            <%}else{%>
-                             ( Employee )
-                             <%}}%>
-                            </option>
-                          </select>
-                      </div>
-                      <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Performance :</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="feedback" placeholder="Write something here..." required></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Submit Feedback</button>
-                </div>
-            </div>
-            </div>
-        </form>
+        <%- include('../../partials/employee/_addFeedbackModal.ejs') -%>;
     </section>
-
 </main>
 

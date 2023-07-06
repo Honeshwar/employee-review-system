@@ -1,0 +1,33 @@
+<% if( locals.feedbacks.length === 0 ){ %>
+    <div id="no-data-container">
+     <img style="height: fit-content;" src="https://cdn-icons-png.flaticon.com/128/7486/7486754.png" alt="no data picture" >
+     <h4>No Feedback is present in db, added Feedback will be displayed here...</h4>
+    </div>
+   <%}else{%>
+
+     <% let count = 1;
+         for(let i=0;i<feedbacks.length;i++){ %>
+         <div class="card" style="height: fit-content;">
+             <h5 class="card-header">Feedback: <%= count %> </h5>
+             <div class="card-body">
+             <h5 class="card-title">
+                 From:
+                  <% let isAdminFeedback = false;
+                  if(feedbacks[i].from === null){ 
+                         const feedback = feedbackWithoutPopulate.find((feedback)=> feedback.id === feedbacks[i].id);
+                         if(feedback.from.toString() === admin.id){
+                             isAdminFeedback = true;
+                             %>
+                             <small style="color: rgb(7, 136, 67);"><%= admin.name %> (Owner)</small>
+                             <% }else{  %>
+                             <small style="color: red;">(user not exist)</small>
+                       <% }
+                   }else{  %>
+                         <%= feedbacks[i].from.name %> 
+                         <small style="font-size: .7rem;"><i>(<%= feedbacks[i].from.role %>)</i></small>
+                   <%  } %>
+             </h5>
+             <p class="card-text">Review: <i> <%= feedbacks[i].feedback %></i></p>
+             </div>
+         </div>  
+ <% count++; }}%>   
