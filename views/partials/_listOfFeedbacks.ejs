@@ -1,0 +1,38 @@
+<% if( feedbacks.length === 0 ){ %>
+    <div id="no-data-container">
+     <img style="height: fit-content;" src="https://cdn-icons-png.flaticon.com/128/7486/7486754.png" alt="no data picture" >
+     <h4>No Feedback is present in db, added Feedback will be displayed here...</h4>
+    </div>
+   <%}else{%>
+
+     <% for(let i=0;i<feedbacks.length;i++){ %>
+         <div class="card">
+             <h5 class="card-header">Feedback: <%= i+1 %> </h5>
+             <div class="card-body">
+             <h5 class="card-title">
+                 From: <% let isAdminFeedback = false;
+                 if(feedbacks[i].from === null){ 
+                  const feedback = feedbackWithoutPopulate.find((feedback)=> feedback.id === feedbacks[i].id);
+                  if(feedback.from.toString() === admin.id){
+                    isAdminFeedback = true;
+                    %>
+                    <small style="color: rgb(7, 136, 67);">
+                      <% if(admin.id === currentSessionUser.id){ %>
+                        You (Owner)
+                      <% }else{ %>
+                        <%= admin.name%> (Owner)
+                      <% } %>
+                    </small>
+                  <% }else{  %>
+                    <small style="color: red;">(user not exist)</small>
+                    <% }}else{  %>
+                         <%= feedbacks[i].from.name %> 
+                         <small style="font-size: .7rem;"><i>(<%= feedbacks[i].from.role %>)</i></small>
+                        </h5>
+                   <%  } %>
+             <h5 class="card-title">To: <%= feedbacks[i].to.name %> 
+              <small style="font-size: .7rem;"><i>(<%= feedbacks[i].to.role %>)</i></small>
+            </h5>
+             <p class="card-text">Review: <i><%= feedbacks[i].feedback %></i></p>
+            <%- include('./_updateFeedbackModal.ejs',{feedback:feedbacks[i],isAdminFeedback}) -%>
+ <%}}%>   

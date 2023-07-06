@@ -1,0 +1,54 @@
+<button id="modal-btn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewEmployeeModal"
+>
+    <img src="https://cdn-icons-png.flaticon.com/128/7854/7854531.png" alt="add pic"> 
+    Add Employee
+</button>
+
+ <!-- add employee Modal -->
+<form action="/admin/add-employee" method="post" class="modal fade" id="addNewEmployeeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+  <div class="modal-content">
+      <div class="modal-header">
+      <h1 class="modal-title fs-5" id="exampleModalLabel">Add Employee Form</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-12">
+            <label for="employeeName" class="form-label">Employee Name</label>
+            <input required placeholder="@employee name" type="text" class="form-control" id="employeeName" name="name">
+          </div>
+          <div class="col-md-12">
+            <label for="employeeEmail" class="form-label">Email</label>
+            <input required placeholder="email" type="email" class="form-control" id="employeeEmail" name="email">
+            <div class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+          <div class="col-md-6">
+            <label for="employeePassword-add" class="form-label">Password</label>
+            <input required placeholder="password" type="password" class="form-control" id="employeePassword-add" name="password">
+          </div>
+          <div class="col-md-6">
+            <label for="employeeConfirmPassword-add" class="form-label">Confirm Password</label>
+            <input required placeholder="confirm password" type="password" class="form-control" id="employeeConfirmPassword-add"
+              name="confirmPassword">
+          </div>
+          <div class="mb-3 form-check" style="margin-left: 20px;">
+            <input type="checkbox" class="form-check-input" id="showPassword-add" onclick="visiblePass('add')">
+            <label class="form-check-label" for="showPassword-add"><small style="color: gray;">Show Password</small></label>
+          </div>
+          <div class="col-md-12">
+            <label for="role" class="form-label">Role </label>
+            <select id="select" class="form-select" aria-label="Default select example" disabled>
+              <option selected value="employee">Employee</option>
+            </select>
+            <input  type="hidden" name="role" value="employee">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      <button type="submit" class="btn btn-primary">Add Employee</button>
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+  </div>
+  </div>
+</form>

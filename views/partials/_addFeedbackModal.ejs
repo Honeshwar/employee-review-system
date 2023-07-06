@@ -1,0 +1,47 @@
+  <!-- Button trigger modal -->
+  <button id="trigger-modal-btn" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addFeedbackModal" title="do review to any employee/admin">
+    Do Feedback
+</button>
+
+<!-- Modal -->
+<form action="/admin/feedback/add" method="post" class="modal fade" id="addFeedbackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Feedback Form</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">From:</label>
+                <input type="text" class="form-control" id="exampleFormControlInput1" "
+                value="<%= locals?.currentSessionUser.name %>"
+                disabled >
+
+                <input type="hidden" name="from" value="<%= locals?.currentSessionUser.id %>" >
+            </div>
+            <div class="mb-3">
+                <label for="select" class="form-label">To:</label>
+                <select name="to" id="select" class="form-select" aria-label="Default select example" required>
+                   <% for(let employee of locals.employees){ %>
+                    <% if(employee.id === locals?.currentSessionUser.id ){ continue;} %>
+                    <option value=<%= employee.id %> ><%= employee.name %> <% if(employee.role==='admin'){%>
+                        ( Admin )
+                    <%}else{%>
+                     ( Employee )
+                     <%}}%>
+                    </option>
+                  </select>
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label"> Performance :</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="feedback" placeholder="Write something here..." required></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+        </div>
+    </div>
+    </div>
+</form>

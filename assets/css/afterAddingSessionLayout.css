@@ -1,0 +1,168 @@
+/* reset all default style */
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+/* styling body */
+body{
+    width: 100vw;
+    height: 100vh;
+}
+
+/* styling navbar */
+
+
+
+/*********** header/navbar style ******************/
+#navbar{
+    width: 100%;
+    background-color:bisque ;
+}
+
+/* all anchor style styling */
+#navbar a{
+    text-shadow: 0 0 1px black;
+}
+#navbar a:hover{
+    border-bottom:1px solid rgb(4, 6, 95);
+}
+
+/* brand name styling */
+#brand-name{
+    font-size: 1.62rem;
+    font-family: cursive;
+    text-shadow: 0 0 1px rgb(8, 8, 8);
+}
+
+
+
+
+/******************************************** styling main section **************************************/
+#main{
+    width: 100%;
+    height: 80%;
+    
+}
+
+/*********** admin style ******************/
+
+/* list of employee container styling , card styling , card of user/employee */
+#list-of-employees-container{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+
+    overflow-y: auto;
+    height: 550px;
+    padding: 10px;
+}
+
+/* add employee modal btn container and btn  + img styling */
+#add-employee-btn-container{
+    margin-top:10px;
+    padding: 10px;
+}
+#add-employee-modal-btn-container #modal-btn {
+   margin: auto;
+   display: flex;
+   align-items: center;
+   
+   text-shadow: 0 0 2px black;
+   box-shadow:inset 0 0 2px 2px rgb(5, 85, 189);
+}
+#add-employee-modal-btn-container #modal-btn:hover {
+    box-shadow: 0 0 3px 3px rgb(2, 7, 14);
+}
+#add-employee-modal-btn-container #modal-btn  img{
+    height:30px;
+    width: 30px;
+    margin-right:5px ;
+}
+
+
+/*********** feedback style ******************/
+/* review container styling */
+#feedback-modal-btn-container{
+    padding: 20px;
+    width: 100%;
+    height: 15%;
+
+    /* to center btn */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* modal btn styling */
+#trigger-modal-btn{
+    box-shadow: inset 0 0 2px 2px rgb(8, 97, 170);
+    text-shadow: 0 0 1px black;
+    padding: 10px;
+    font-family: monospace;
+    font-weight: 900;
+    font-size: 1.2rem;
+}
+#trigger-modal-btn:hover{
+    box-shadow:  0 0 5px 7px rgb(48, 41, 41);
+}
+
+/* list of feedbacks */
+#list-of-feedbacks{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding:10px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: wrap;
+
+    overflow-y: auto;
+    height:80%;
+    width: 100%;
+}
+
+
+/*********** employee style ******************/
+
+/* list of tasks styling */
+#list-of-tasks{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding:10px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: wrap;
+
+    overflow-y: auto;
+    height:100%;
+    width: 100%;
+}
+
+/******** common style of many other pages also, like employee dashboard, admin dashboard,feedback .. */
+/* card */
+.card{
+    margin-top: 10px;
+    height: fit-content;
+    width: 420px;
+    margin-bottom: 10px;
+}
+.card img{
+    padding-bottom: 10px;
+}
+
+/* non data styling */
+#no-data-container{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+#no-data-container img{
+    width: 200px;
+}
+
+
+
+

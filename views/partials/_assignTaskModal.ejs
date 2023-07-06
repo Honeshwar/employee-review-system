@@ -1,0 +1,46 @@
+ <!-- Button trigger modal -->
+ <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#assignTaskModal-<%= employee.id%>">
+    Assign Task 
+    </button>
+<!-- assign review Modal -->
+<form action="/admin/assign-task-to-employee" method="post" class="modal fade" id="assignTaskModal-<%= employee.id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog ">
+<div class="modal-content">
+    <div class="modal-header">
+    <h1 class="modal-title fs-5" id="exampleModalLabel">Assign Task Form</h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="mb-3">
+            <label for="assignReviewInput" class="form-label" title="employee which have give feedback to below recipient">Reviewer:<small style="color: gray;">( that do review. )</small></label>
+            <input title="employee which have give feedback to below recipient" type="text" class="form-control" id="assignReviewInput" disabled 
+            name="from"
+            value="<%= employee.name%>">
+            <input 
+            type="hidden"
+            name="reviewer"
+            value="<%= employee.id%>">
+        </div>
+        
+        <div class="mb-3">
+            <label title="recipient = whom reviewer have to do review" for="assignReviewInputSelect" class="form-label">Recipient: <small style="color: gray;">( that employee/user that i(admin) want Reviewer to review his/her performance. ) </small>
+            </label>
+            <select   name="recipient" id="assignReviewInputSelect" class="form-select" aria-label="Default select example" required>
+                <!-- <option  disabled>Open this select menu</option> -->
+                <% for(let i=0;i < employees.length;i++){ 
+                        if( employees[i].id === employee.id || employees[i].id === currentSessionUser.id || employees[i].role === 'admin' ){  <!-- admin or current reviewer-->
+                            continue;
+                        }
+                        %>                
+                    <option value=<%= employees[i].id %>><%= employees[i].name %></option>
+                <%}%>
+                </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+    <button type="submit" class="btn btn-warning">Assign Task</button>
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    </div>
+</div>
+</div>
+</form>

@@ -1,51 +1,17 @@
-<style>
-  #navbar-right{
-    width: 170px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-right: 20px;
-  }
-
-  @media screen and (max-width:600px) {
-    #navbar-right{
-      flex-direction: column;
-      padding-left: 5px;
-      align-items: flex-start;
-      justify-content: space-between;
-      height:100px
-    }
-  }
-  
-</style>
-
 <nav class="navbar navbar-expand-lg " id="navbar">
     <div class="container-fluid" >
-      <!-- <span class="navbar-brand active" id="brand-name"  href="/">Employee Review System</span> -->
-      <%if(locals.currentSessionUser){%>
-        <li class="nav-item navbar-nav ">
-          <button style="padding: 0;" type="button" class="btn " data-bs-toggle="modal" data-bs-target="#showProfileModal">
-            <span class="nav-link active" style="color: rgb(18, 196, 18);font-family: impact; font-size: 1.4rem;" >You: <%= currentSessionUser.name %></span>
-          </button>
-          <!-- <img id="profile-pic" src="https://cdn-icons-png.flaticon.com/128/3237/3237472.png" alt="profile picture"> -->
-          </li> 
-        <%}%>
+      <span class="navbar-brand active" id="brand-name"  href="/">ERS</span>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <!-- <li class="nav-item">
-            <a class="nav-link active" href="/admin/dashboard">Employees</a>
-          </li>
-           -->
           <%  if(locals?.currentSessionUser.role === 'admin'){ %>
             <li class="nav-item navbar-nav ">
               <a class="nav-link active" href="/admin/dashboard">Dashboard</a>
             </li>
             <li class="nav-item navbar-nav ">
-              <a class="nav-link active" href="/admin/feedback">Reviews</a>
+              <a class="nav-link active" href="/admin/feedback">View Feedbacks</a>
             </li>
           <% } else{%>
             <li class="nav-item navbar-nav ">
@@ -56,7 +22,16 @@
             </li>
           <% } %>
           
-          
+          <%if(locals.currentSessionUser){%>
+            <li class="nav-item navbar-nav ">
+              <button style="padding: 0;" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#showProfileModal" style="display: flex;justify-content: center;align-items: center;">
+                <span class="nav-link active" style="color: rgb(18, 196, 18);font-family: impact; font-size: 1.4rem;display: flex;justify-content: center;align-items: center;height:20px" > 
+                You :&nbsp; <%= currentSessionUser.name %>
+                </span>
+              </button>
+              </li> 
+            <%}%>
+        
             
         </ul> 
          
@@ -83,7 +58,11 @@
                 <img src="https://cdn-icons-png.flaticon.com/128/10809/10809442.png" alt="employee photo">
                 <h5 class="card-title">Name: <%= currentSessionUser.name %> </h5>
                 <p class="card-text">Email: <%= currentSessionUser.email %> , Password: <%= currentSessionUser.password %></p>
-                <p class="">Role: <%= currentSessionUser.role %></p>
+                <p class="">Role: <%= currentSessionUser.role %> 
+                  <% if(admin.id === currentSessionUser.id){ %>
+                    <small  style="color: rgb(18, 196, 18);font-family: cursive;">(Owner)</small>
+                  <% } %>
+                </p>
             </div>
            </div>
         </div>

@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');//all gagha one instance use that first import/require
+const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({//user = admin + employees
+const employeeSchema = new mongoose.Schema({
     name:{
         type:String,
         required:true
@@ -32,6 +32,6 @@ const userSchema = new mongoose.Schema({//user = admin + employees
     ]
 },{timestamps:true});
 
-const User = mongoose.model('User',userSchema);//collection name
+const Employee = mongoose.model('Employee',employeeSchema);
 
-module.exports = User;//require return an user model obj
+module.exports = Employee;

@@ -1,24 +1,19 @@
-const mongoose = require('mongoose');//all gagha one instance use that first import/require
+const mongoose = require('mongoose');
 
-const assignTaskSchema = new mongoose.Schema({//user = admin + employees
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true,
-        ref:'User'
-    },
+const assignTaskSchema = new mongoose.Schema({
     reviewer:{//that do review
         type:mongoose.Schema.Types.ObjectId,
         required:true,
-        ref:'User'
+        ref:'Employee'
     },
     recipient:{//receiver,receive a feedback
         type:mongoose.Schema.Types.ObjectId,
         required:true,
-        ref:'User'
+        ref:'Employee'
     },
     
 },{timestamps:true});
 
-const AssignTask = mongoose.model('AssignTask',assignTaskSchema);//collection name
+const AssignTask = mongoose.model('AssignTask',assignTaskSchema);
 
-module.exports = AssignTask;//require return an assign Task model obj
+module.exports = AssignTask;

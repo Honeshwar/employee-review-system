@@ -1,32 +1,41 @@
-const User = require('../models/userSchema');
+const Employee = require('../models/employeeSchema');
 const Feedback = require('../models/feedbackSchema')
 const AssignTask = require('../models/assignTaskSchema');
+const Admin = require('../models/adminSchema');
 
 // employeeDashboard
 exports.employeeDashboard = async (req,res)=>{
     try {
-        // console.log('*************** req.user',req.user);//passport add session user in request
-        const userId = req.user.id;//employeeId
-        const user = await User.findById(userId).populate({
-            path:'feedbacks',
-            options: {
-                sort: "-createdAt",
-              },
-            populate:{//nested populate
-                path:'from to'//multiple field populate separated by space
-                // populate:{},
-                // options: {}
+        if(req.isAuthenticated() && req.user.role==="employee"){
+            const employeeId = req.user.id;//employeeId
+            //finding users and current session user and render employee dashboard page
+            const employee = await Employee.findById(employeeId).populate({
+                path:'feedbacks',
+                options: {
+                    sort: "-createdAt",
+                },
+                populate:{
+                    path:'from to'
+                    
+                }
+            });
+            const employees = await Employee.find({});
+
+            const adminInDb = await Admin.find({});//only one admin in db always
+            let admin = {};
+            if(adminInDb.length !== 0){
+                admin = adminInDb[0];
             }
-    });//populate over reviews field
-        // console.log("find user=employee*******\n",user);
-        const users = await User.find({});
-        return res.render('employeeDashboard.ejs',{
-            layout:'../layouts/layout2.ejs',
-            title:"Employee Dashboard",
-            employee:user,
-            users,
-            feedbacks:user.feedbacks
-        });
+            
+            return res.render('./employee pages/employeeDashboard.ejs',{
+                title:"Employee Dashboard",
+                employees,
+                feedbacks:employee.feedbacks,
+                admin,
+                feedbackWithoutPopulate:await Feedback.find({}).sort('-createdAt'),
+            });
+        }
+        return res.redirect('/signin');        
     } catch (error) {
         console.log("error while finding user/employee",error);
         return res.redirect('back');
@@ -36,21 +45,29 @@ exports.employeeDashboard = async (req,res)=>{
 // add feedback by employee
 exports.addFeedback = async (req,res)=>{
     try {
-        const data = req.body;
-        const findUser = await User.findById(data.to);
+        if(req.isAuthenticated() && req.user.role==="employee"){
+            const data = req.body;
+            const findEmployee = await Employee.findById(data.to);
 
-        const newFeedback = await Feedback.create({
-            user:findUser.id,// that user which belong to feedback(feedback of that person)
-            ...data
-        });
-        console.log('new Feedback',newFeedback);
+            // creating new feedback
+            const newFeedback = await Feedback.create({
+                user:findEmployee.id,// that user which belong to feedback(feedback of that person)
+                ...data
+            });
 
-       
-        findUser.feedbacks.push(newFeedback.id);
-        findUser.save();
+            //add in admin feedbacks array also
+            const findAdmin = await Employee.findById({});
+            findAdmin[0].feedbacks.push(newFeedback.id);
+            findAdmin[0].save();
+            
+            //pushing to user feedbacks array(feedback field)
+            findEmployee.feedbacks.push(newFeedback.id);
+            findEmployee.save();
 
-        console.log('new find user',findUser);
-        return res.redirect('back');
+            req.flash('success',' Successfully added feedback');
+            return res.redirect('back');
+        }
+        return res.redirect('/signin');  
     } catch (error) {
         console.log('error while adding  Feedback',error);
         return res.redirect('back');
@@ -61,22 +78,24 @@ exports.addFeedback = async (req,res)=>{
 // get all tasks (assigned by admin) controller
 exports.getTasks = async (req,res)=>{
     try {
-        const findUser = await User.findById(req.user.id).populate({
-            path:'assignTasks',
-            options: {
-                sort: "-createdAt",
-              },
-            populate:{
-                path:'reviewer recipient'
-            }
-        });
-        console.log('current user **********\n',findUser.assignTasks);
-        return res.render('employeeTasks.ejs',{
-            layout:'../layouts/layout2.ejs',
-            title:"Tasks",
-            employee:findUser,
-            assignTasks:findUser.assignTasks
-        });
+        if(req.isAuthenticated() && req.user.role==="employee"){
+            //populating over all assignTasks and render employee task page
+            const findEmployee = await Employee.findById(req.user.id).populate({
+                path:'assignTasks',
+                options: {
+                    sort: "-createdAt",
+                },
+                populate:{
+                    path:'reviewer recipient'
+                }
+            });
+            return res.render('./employee pages/employeeTasks.ejs',{
+                title:"Tasks",
+                assignTasks:findEmployee.assignTasks,
+                admin:(await Admin.find({}))[0],
+            });
+        }
+        return res.redirect('/signin');  
     } catch (error) {
         console.log('error while adding  Feedback',error);
         return res.redirect('back');
@@ -87,57 +106,40 @@ exports.getTasks = async (req,res)=>{
 //complete assign task employee
 exports.completeAssignTask = async (req,res)=>{
     try {
-        // add feedback 
-        const data = req.body;// data={feedback:,from,to}
-        console.log("data",data);
-        const recipientId = data.to;//receiver,receive a feedback
-        const reviewerId = data.from;
+        if(req.isAuthenticated() && req.user.role==="employee"){
+            // add feedback 
+            const data = req.body;// data={feedback:,from,to}
+            const recipientId = data.to;//receiver,receive a feedback
+            const reviewerId = data.from;
 
-        const newFeedback = await Feedback.create({
-            user:recipientId,// that user which belong to feedback(feedback of that person)
-            ...data
-        });
+            //create new feedback
+            const newFeedback = await Feedback.create({
+                user:recipientId,// that user which belong to feedback(feedback of that person)
+                ...data
+            });
+            
+            //finding user(recipient/receiver) that belong to this created feedback and add new feedback to its feedbacks array(to:,recipient)
+            const findRecipient = await Employee.findById(recipientId).populate('assignTasks');
+            findRecipient.feedbacks.push(newFeedback.id);
+            findRecipient.save();
+            
+            // find and delete complete task 
+            await AssignTask.findByIdAndDelete(data.taskId);
+            const findReviewer = await Employee.findById(req.user.id).populate('assignTasks');
+            const updatedAssignTaskArray = findReviewer.assignTasks.filter((task)=>task.id !== data.taskId);
+            findReviewer.assignTasks = updatedAssignTaskArray;
+            findReviewer.save();//save in db
         
-        //find user and add new feedback to that user which belong to feedback (to:,recipient)
-        const findRecipient = await User.findById(recipientId).populate('assignTasks');
-        findRecipient.feedbacks.push(newFeedback.id);
-        findRecipient.save();
-        
-       // find and delete task (to complete task)
-        await AssignTask.findByIdAndDelete(data.taskId);
-        const findReviewer = await User.findById(req.user.id).populate('assignTasks');
-        const updatedAssignTaskArray = findReviewer.assignTasks.filter((task)=> {
-            console.log("ids", task.id , data.taskId,findReviewer);
-            if( task.id !== data.taskId){
-                return true;
-            }
-            return false;
-        });
-        console.log('findReviewer assign array update',updatedAssignTaskArray);
-        findReviewer.assignTasks = updatedAssignTaskArray;
-        
-        findReviewer.save();//save in db
-    
-       console.log('assign tasks',await AssignTask.find({}),'user',findReviewer);
-        return res.redirect('back');
-        
-        // delete complete task from db and also from current user document(within assignTasks array)  
-        //    const findUser = await User.findById(req.user.id);
-        //    const index = findUser.assignTasks.indexOf(data.taskId);
-        // findUser.assignTasks[index].remove();
-        
-        // through ref change array
-        // const findReviewer = await User.findById(data.reviewer).populate('assignTasks');
-    //     const find = findReviewer.assignTasks.filter((task)=> task.recipient.id === data.recipient.id);
-    //     if(find.length !== 0 ){
-    //     // for to already an task for that employee
-    //     return res.redirect('back');
-    // }
-        // console.log("||||INDEX||||",index);
-        // findUser.assignTasks.splice(index,1);
+            req.flash('success',' Successfully completed assigned task ');
+            return res.redirect('back');
+        }
+        return res.redirect('/signin'); 
     } catch (error) {
         console.log('error while completeAssignTask controller ',error);
         return res.redirect('back');
     }
 
 }
+
+
+// redirect to sign will further redirect req to it destination depend upon session, role of user [logic]

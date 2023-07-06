@@ -1,40 +1,51 @@
-const User = require('../models/userSchema')
+const Employee = require('../models/employeeSchema')
 const Feedback = require("../models/feedbackSchema");
-
+const Admin = require("../models/adminSchema");
 
 //viewAllFeedback
 exports.viewAllFeedback = async (req,res)=>{
     try {
-        const users = await User.find({});
-        // console.log('************ \n',users);
-        let feedbacks = await Feedback.find({}).populate('from to');//from to are property where we populate by id
-        console.log('************ \n',feedbacks);
-        // Feedbacks = [];
-        return res.render('adminFeedback.ejs',{layout:'../layouts/layout2.ejs',title:'Feedback Page',users,feedbacks});
+        if(req.isAuthenticated() && req.user.role==="admin"){
+            const employees = await Employee.find({});
+            //finding all feedback and rendering admin feedback page
+            let feedbacks = await Feedback.find({}).sort('-createdAt').populate('from to');//from to are property where we populate by id
+            return res.render('./admin pages/adminFeedback.ejs',{
+                title:'Feedback Page',
+                employees,feedbacks,
+                feedbackWithoutPopulate:await Feedback.find({}).sort('-createdAt'),
+                admin:(await Admin.find({}))[0]
+            });
+        }
+       return res.redirect('/signin');
     } catch (error) {
-        console.log('error while getting all Feedbacks',error);
-        return res.redirect('back');
-    }
+    console.log('error while getting all Feedbacks',error);
+    return res.redirect('back');
+}
 }
 
 //addFeedback
-
 exports.addFeedback = async (req,res)=>{
     try {
-        const data = req.body;
-        const findUser = await User.findById(data.to);
+        if(req.isAuthenticated() && req.user.role==="admin"){
+            const data = req.body;
+            
+            //create new feedback
+            const newFeedback = await Feedback.create({
+                ...data
+            });
 
-        const newFeedback = await Feedback.create({
-            user:findUser.id,//user that belong to feedback
-            ...data
-        });
-        console.log('new Feedback',newFeedback);
+            // const findAdmin = await Admin.findById({});
+            // findAdmin[0].feedbacks.push(newFeedback.id);
+            // findAdmin[0].save();
 
-       
-        findUser.feedbacks.push(newFeedback.id);
-        findUser.save();
+            const findEmployee = await Employee.findById(data.to);
+            findEmployee.feedbacks.push(newFeedback.id);
+            findEmployee.save();
 
-        return res.redirect('back');
+            req.flash('success',' Successfully added feedback ');
+            return res.redirect('back');
+        }
+        return res.redirect('/signin');
     } catch (error) {
         console.log('error while getting all Feedbacks',error);
         return res.redirect('back');
@@ -42,14 +53,18 @@ exports.addFeedback = async (req,res)=>{
 }
 
 //updateFeedback
-
 exports.updateFeedback = async (req,res)=>{
     try {
-        const feedbackId = req.params.feedbackId;
+        if(req.isAuthenticated() && req.user.role==="admin"){
+            const feedbackId = req.params.feedbackId;
 
-        const updateFeedback = await Feedback.updateOne({_id:feedbackId},{feedback:req.body.feedback});
-        console.log('update Feedback **************** \n',updateFeedback);
-        return res.redirect('back');
+            //update feedback
+            await Feedback.updateOne({_id:feedbackId},{feedback:req.body.feedback});
+
+            req.flash('success',' Successfully updated feedback');
+            return res.redirect('back');
+        }
+        return res.redirect('/signin');
     } catch (error) {
         console.log('error while getting all Feedbacks',error);
         return res.redirect('back');

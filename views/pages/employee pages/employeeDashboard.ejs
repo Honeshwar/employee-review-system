@@ -1,61 +1,4 @@
-<style>
-    #Feedback-form-container{
-        background-color:bisque ;
-        /* width:100%;
-        height:100px; */
-        padding: 20px;
-        /* border: solid; */
-
-        width: 100%;
-        height: 15%;
-
-        /* to center btn */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    #trigger-modal-btn{
-        box-shadow: inset 0 0 2px 2px rgb(8, 97, 170);
-        text-shadow: 0 0 1px black;
-        padding: 10px;
-        font-family: monospace;
-        font-weight: 900;
-        font-size: 1.2rem;
-    }
-    #trigger-modal-btn:hover{
-        box-shadow:  0 0 5px 7px rgb(48, 41, 41);
-    }
-   
-    #list-of-feedbacks{
-        margin-top: 20px;
-        margin-bottom: 10px;
-        padding:10px;
-        display: flex;
-        justify-content: space-evenly;
-        flex-flow: wrap;
-
-        /* border: solid; */
-        overflow-y: auto;
-        height:80%;
-        width: 100%;
-    }
-    .card{
-        width: 400px;
-        margin-bottom: 10px;
-        height: fit-content;
-    }
-    #no-data-container{
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        align-items: center;
-    }
-    #no-data-container img{
-        width: 200px;
-    }
-
-</style>
+<!-- <link rel="stylesheet" href="/css/feedback.css"> -->
 
 <main id="main">
  
@@ -67,25 +10,41 @@
            </div>
           <%}else{%>
 
-            <% for(let i=0;i<feedbacks.length;i++){ %>
+            <% let count = 1;
+                for(let i=0;i<feedbacks.length;i++){ %>
                 <div class="card" style="height: fit-content;">
-                    <h5 class="card-header">Feedback: <%= i+1 %> </h5>
+                    <h5 class="card-header">Feedback: <%= count %> </h5>
                     <div class="card-body">
-                    <h5 class="card-title">From: <%= feedbacks[i].from.name %></h5>
-                    <!-- <h5 class="card-title">To: <%= feedbacks[i].to.name %></h5> -->
+                    <h5 class="card-title">
+                        From:
+                         <% let isAdminFeedback = false;
+                         if(feedbacks[i].from === null){ 
+                                const feedback = feedbackWithoutPopulate.find((feedback)=> feedback.id === feedbacks[i].id);
+                                if(feedback.from.toString() === admin.id){
+                                    isAdminFeedback = true;
+                                    %>
+                                    <small style="color: rgb(7, 136, 67);"><%= admin.name %> (Owner)</small>
+                                    <% }else{  %>
+                                    <small style="color: red;">(user not exist)</small>
+                              <% }
+                          }else{  %>
+                                <%= feedbacks[i].from.name %> 
+                                <small style="font-size: .7rem;"><i>(<%= feedbacks[i].from.role %>)</i></small>
+                          <%  } %>
+                    </h5>
                     <p class="card-text">Review: <i> <%= feedbacks[i].feedback %></i></p>
                     </div>
                 </div>  
-        <%}}%>   
+        <% count++; }}%>   
     </section>
 
-    <section id="Feedback-form-container">
+    <section id="feedback-modal-btn-container">
         <!-- Button trigger modal -->
         <button id="trigger-modal-btn" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addFeedbackModal" title="do Feedback to any employee/admin">
             Do Feedback
         </button>
         
-        <!-- Modal -->
+        <!--add feedback Modal -->
         <form action="/employee/feedback/add" method="post" class="modal fade" id="addFeedbackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog ">
             <div class="modal-content">
@@ -105,9 +64,9 @@
                     <div class="mb-3">
                         <label for="select" class="form-label">To:</label>
                         <select name="to" id="select" class="form-select" aria-label="Default select example" required>
-                           <% for(let user of locals.users){ %>
-                            <% if(user.id === locals?.currentSessionUser.id){ continue;} %>
-                            <option value=<%= user.id %> ><%= user.name %> <% if(user.role==='admin'){%>
+                           <% for(let employee of locals.employees){ %>
+                            <% if(employee.id === locals?.currentSessionUser.id || employee.role==='admin'){ continue;} %>
+                            <option value=<%= employee.id %> ><%= employee.name %> <% if(employee.role==='admin'){%>
                                 ( Admin )
                             <%}else{%>
                              ( Employee )
@@ -116,8 +75,8 @@
                           </select>
                       </div>
                       <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Review :</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="feedback" placeholder="Write Review here..." required></textarea>
+                        <label for="exampleFormControlTextarea1" class="form-label">Performance :</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="feedback" placeholder="Write something here..." required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

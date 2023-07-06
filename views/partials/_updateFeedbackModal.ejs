@@ -1,0 +1,58 @@
+<% if(feedback.from === null ){
+  if(isAdminFeedback && currentSessionUser.id === admin.id  ){ %>
+    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateFeedbackModal-<%= feedback.id%>" >
+      Update 
+  </button>
+ <% } else{%>
+    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateFeedbackModal-<%= feedback.id%>" disabled>
+        Update 
+    </button>
+<%}}else{%>
+    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateFeedbackModal-<%= feedback.id%>" >
+        Update 
+    </button>
+
+    <!-- Update feedback by admin Modal -->
+    <form action="/admin/feedback/update/<%= feedback.id%>" method="post" class="modal fade" id="updateFeedbackModal-<%= feedback.id%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Update Feedback Form</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                  <label for="fromInput" class="form-label">From:</label>
+                  <% if(isAdminFeedback){ %>
+                  <input type="text" class="form-control" id="fromInput"
+                  value="<%= admin.name %> (You)"
+                  disabled >
+                  <%}else{%>
+                  <input type="text" class="form-control" id="fromInput"
+                  value="<%= feedback.from.name %>"
+                  disabled >
+                  <%}%>
+              </div>
+              <div class="mb-3">
+                  <label for="toInput" class="form-label">To:</label>
+                  <input type="text" class="form-control" id="toInput"
+                  value="<%= feedback.to.name %>"
+                  disabled >
+                </div>
+                <div class="mb-3">
+                  <label for="updateReview" class="form-label">Review :</label>
+                  <textarea class="form-control" id="updateReview" rows="3" name="feedback" placeholder="Write review here..." 
+                    required><%= feedback.feedback %></textarea>
+              </div>
+          </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-warning" >Update Feedback</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+      </div>
+    </form>
+<%}%>
+</div>
+</div>  
+

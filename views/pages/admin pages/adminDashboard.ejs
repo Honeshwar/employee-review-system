@@ -1,0 +1,56 @@
+<!-- <link rel="stylesheet" href="/css/adminDashboard.css">not use ./ otherwise current url aage appent this url not as MW provide , internally template engine do req for css file and static MW get called () , TE execute/compile ejs -->
+
+<main id="main">
+
+  <section id="employee">
+    <%- include("../../partials/_listOfEmployees.ejs",{employees}) -%> 
+    <div id="add-employee-modal-btn-container">
+      <%- include("../../partials/_addEmployeeModal.ejs",{}) -%> 
+    </div>
+  </section>
+    
+</main>
+
+ <script>
+        function visiblePass(input) {
+         switch (input) {
+          case 'add':
+            var password = document.getElementById("employeePassword-add");
+            var confirm_password = document.getElementById("employeeConfirmPassword-add");
+            if (password.type === "password") {
+              password.type = "text";
+              confirm_password.type = "text";
+            } else {
+              password.type = "password";
+              confirm_password.type = "password";
+            }
+          break;
+          case 'update':
+            var password = document.getElementById("employeePassword-update");
+            if (password.type === "password") {
+              password.type = "text";
+            } else {
+              password.type = "password";
+            }
+          break;
+          case 'add':
+            var password = document.getElementById("employeePassword-add");
+            var confirm_password = document.getElementById("employeeConfirmPassword-add");
+            if (password.type === "password") {
+              password.type = "text";
+              confirm_password.type = "text";
+            } else {
+              password.type = "password";
+              confirm_password.type = "password";
+            }
+          break;
+          
+         
+          default:
+            break;
+         }
+        }
+</script>
+
+    
+    

@@ -1,14 +1,31 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-image: radial-gradient( circle 311px at 8.6% 27.9%,  rgba(62,147,252,0.57) 12.9%, rgba(239,183,192,0.44) 91.2% );
+}
+
+/* ***** form styling */
+
+/* wrapper form container styling */
 .form-container {
     width: 450px;
-    /* height: 70%; */
-
     border: 1px solid rgba(0, 0, 0, 0.801);
     box-shadow: -3px 3px 0px 3px rgba(0, 0, 0, 0.801);
     padding: 20px;
     border-radius: 10px;
     background-image: radial-gradient(circle 311px at 8.6% 27.9%, rgba(232, 233, 235, 0.57) 12.9%, rgba(214, 208, 209, 0.44) 91.2%);
 }
-
 .form-container h1 {
     text-align: center;
     color: rgb(6, 107, 23);
@@ -16,32 +33,27 @@
     padding-bottom: 10px;
 }
 
-
-.form,
-form {
+/* form container */
+.form {
     padding: 10px;
 }
+/* btn style */
+.btn {
+    width: 100%;
+} 
 
-.form {
-    height: 70%;
-    /* overflow-y: auto; */
-
-}
-
-.redirect-signup-container {
+/* redirect link container */
+.redirect-container {
     font-family: cursive;
     text-align: center;
     padding-top: 5px;
 }
 
-button {
-    width: 100%;
-    /* margin-top: 10px; */
-}
-
+/* error styling ,that show on top of form */
 #error {
     background-color: rgb(224, 114, 114);
-    padding: 5px;
+    padding: 10px;
+    margin-bottom: 5px;
     border-radius: 2px;
     text-align: center;
     color: white;
@@ -49,20 +61,26 @@ button {
     font-family: cursive;
     text-shadow: 0 0 2px black;
 
-    animation: focus 1s ease-in-out 0s 2 alternate;
+    animation: error 1s ease-in-out 0s 2 alternate;
 }
-
-@keyframes focus {
+@keyframes error {
     from {
         background-color: rgb(224, 114, 114);
         border-left: solid red;
 
     }
-
     to {
         background-color: rgb(255, 2, 2);
         border-left: solid rgb(224, 114, 114);
 
     }
 
+}
+
+
+/* media queries */
+@media  screen and (min-width:1000px) {
+    .form-container{
+        width:700px;
+    }
 }

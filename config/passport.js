@@ -1,9 +1,11 @@
-console.log("passport.js file execute and export");
-const passport = require('passport');//library import {environment create for strategy to use}
-const User = require('../models/userSchema');
-const localStrategy = require('passport-local').Strategy;// strategy import ,like this one is manual auth based (create own strategy), some other strategy also like google auth, github auth, facebook auth ,linkdin auth ,etc.. provide its authentication system for verification a user in our app
-const env = require('../config/env')
+//setup passport
+const passport = require('passport');
+const User = require('../models/employeeSchema');
+const Admin = require("../models/adminSchema");
+const localStrategy = require('passport-local').Strategy;
 
+ 
+//setup localStrategy MW
 passport.use(new localStrategy({
     usernameField:"email",//predefined field
     passwordField:'password',
@@ -12,83 +14,99 @@ passport.use(new localStrategy({
   }, async function (req,email,password,done) { 
       try {
         console.log("local strategy executing");
-        const userInDb = await User.findOne({email:email});
+       
+        if(req.body.role === 'admin'){
+            const adminInDb = await Admin.findOne({email:email});
 
-        if(!userInDb || userInDb.password !== password){//!userInDb= userInDb equal to null
-          return done(null,false,{message:'Incorrect username/password'})
+            //if admin not fount in db ,now find employee as admin
+            if (!adminInDb){
+                //finding user and matching password , role=admin
+                const userInDb = await User.findOne({email:email});
+
+                if(!userInDb ){
+                  req.flash('error','Admin with this data not exist!!!');
+                  return done(null,false);
+                }
+                if(userInDb.role !== 'admin' ){
+                  req.flash('error','Your are not admin, select correct role');
+                  return done(null,false);
+                }
+                if( userInDb.password !== password){
+                  req.flash('error','Invalid username/password');
+                  return done(null,false);
+                }
+                req.flash('success','Assigned admin : Successfully signIN / created session');
+              return done(null,userInDb);
+            }
+            //finding admin and matching password
+            if( adminInDb.password !== password){
+              req.flash('error','Invalid username/password');//key/value
+              return done(null,false);
+            }
+            req.flash('success','ADMIN : Successfully signIN / created session');
+         return done(null,adminInDb);
+        }else{
+            //finding user and matching password, role= employee
+            const userInDb = await User.findOne({email:email});
+            if(!userInDb ){
+              req.flash('error','Employee with this data not exist!!!');
+              return done(null,false);
+            }
+            if(userInDb.role !== 'employee' ){
+              req.flash('error','Your are not employee, select correct role');
+              return done(null,false);
+            }
+            if( userInDb.password !== password){
+              req.flash('error','Invalid username/password');
+              return done(null,false);
+            }
+            req.flash('success','Employee : Successfully signIN / created session');
+          return done(null,userInDb);
         }
-
-      return done(null,userInDb);
       } catch (error) {
         return done(err,false);
       }
   })
   );
 
-
 // serialize the data when it set to cookie.
 passport.serializeUser(function(user, done) {
-  console.log("serializeUser executing");
+  console.log(" User get serialize");
     done(null, user._id);
 });
   
 // deserialize id for every request.
-  passport.deserializeUser( async function(id, done) {
-    try {
-      console.log("passport deserializeUser executing");
-      const user = await User.findById(id)
-      return done(null, user);
-    } catch (error) {
-      if(error){
-        console.log('error in finding user --> passport deserialzer');
-        return done(error);
-    }
-    }
-  });
+passport.deserializeUser( async function(id, done) {
+  try {
+    console.log("user get deserializeUser");
 
-  // i will use this middleware to check authenticity 
-  passport.setAuthenticatedUser = async function(req,res,next){
+    // find user in admin db by id
+    const adminInDb = await Admin.findById(id);
+    if(adminInDb){
+      return done(null,adminInDb);
+    }
+
+    // if not admin than find for user in user/employee schema
+    const userInDb = await User.findById(id)
+    return done(null,userInDb);
+
+    } catch (error) {
+    if(error){
+      console.log('error in finding user --> passport deserialzer');
+      return done(error);
+  }
+  }
+});
+
+// i will use this middleware to check authenticity 
+passport.setAuthenticatedUser = async function(req,res,next){
     console.log("set Authenticated User executing");
     if(req.isAuthenticated()){
-      console.log("set Authenticated User executing");
+      console.log("set Authenticated User in locals");
       res.locals.currentSessionUser = req.user;
     }
     next();
 }
-passport.autherizedAdmin=function(req,res,next){
-  // check for super user
-  if(req.isAuthenticated()&& res.locals.user.userType==="admin"){
-    next();
-  }
-  else {
-    console.log("you are not autherised admin.");
-    return res.end("you are not autherized admin")
-  }
-}
-passport.autherizedUser=function(req,res,next){
-  if(req.isAuthenticated()){
-    next();
-  }
-  else{
-    console.log("you are not autherized");
-    return res.redirect('/signin')
-  }
-} 
 
-passport.ensureAuthentication = function(req,res,next){
-  if(req?.isAuthenticated()){
-    next();
-  }
-  return res.redirect('/signin');
 
-}
-// like if(req.cookies.user_session){} this MW do work
-
-passport.notAuthentication = function(req,res,next){
-  if(req?.isAuthenticated()){
-    return res.redirect('/admin/dashboard/');
-  }
-  next();//got to signInPage controller next
-
-}
 module.exports = passport;

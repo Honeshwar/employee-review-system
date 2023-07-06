@@ -1,0 +1,35 @@
+<%if(employees.length === 0 || employees.length === 1 
+&& employees[0].id === locals.currentSessionUser.id ){%>
+   <div id="no-data-container">
+    <img style="height: fit-content;" src="https://cdn-icons-png.flaticon.com/128/7486/7486754.png" alt="no data picture" title="no employee is present in db, add to display employee data at here">
+    <h4>no employee is present in db, add to display employee data at here</h4>
+   </div>
+  <%}else{%>
+    <div id="list-of-employees-container">
+        <% let count = 1;
+           for(let i=0;i<locals.employees.length;i++){ %>
+            <% if(employees[i].id === locals.currentSessionUser.id  ){ continue;} %>
+            <div class="card">
+              <h5 class="card-header">Employee No. <%= count %></h5>
+              <div class="card-body">
+                  <img src="https://cdn-icons-png.flaticon.com/128/10809/10809442.png" alt="employee photo">
+                  <h5 class="card-title">Name: <%= employees[i].name %> </h5>
+                  <p class="card-text">Email: <%= employees[i].email %> , Password: <%= employees[i].password %></p>
+                  <p class="" >Role: <medium style="color:green; text-shadow: 0 0 .3px black;"><%= employees[i].role %></medium></p>
+                  <a href="/admin/delete-employee/<%= employees[i].id%>" class="btn btn-danger">Delete</a>
+                   <%- include("./_updateEmployeeModal.ejs",{employee:employees[i]}) -%>
+                   <%- include("./_assignTaskModal.ejs",{employees,employee:employees[i]}) -%>
+                  <a href="/admin/make-admin/<%= employees[i].id%>" class="btn btn-success">
+                    <% if(employees[i].role === "employee"){ %>
+                      Make Admin
+                    <%}else{%>
+                      UnAdmin
+                    <%}%> 
+                  </a>
+                  
+                 
+              </div>
+            </div>
+        <% count++;  } %>
+    </div>
+<% } %>

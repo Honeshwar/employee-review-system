@@ -1,6 +1,6 @@
+<!-- <link rel="stylesheet" href="/css/signUp.css" type="text/css"> -->
 
-<link rel="stylesheet" href="/css/signup.css" type="text/css">
-<div class="form-container">
+<main class="form-container">
   <h1>Sign Up</h1>
   <div class="form">
     <%if(locals.error){%>
@@ -9,6 +9,18 @@
       </div>
       <%}%>
       <form class="row g-3" action="/signup" method="post">
+        <div class="col-sm-6">
+          <label for="select" class="form-label">Select Your Role:</label>
+          <select name="role" id="select" class="form-select" aria-label="Default select example">
+              <option selected value="employee">Employee</option>
+              <option value="admin">Admin</option>
+            </select>
+        </div>
+        <div class="col-sm-6">
+          <label for="adminToken" class="form-label"><small>If you are admin</small> :</label>
+          <input placeholder="admin token" type="text" class="form-control" id="adminToken"
+            name="admin_token">
+        </div>
         <div class="col-sm-12">
           <label for="employeeName" class="form-label">Employee Name / Admin Name</label>
           <input placeholder="@username" type="text" class="form-control" id="employeeName" name="name">
@@ -17,7 +29,7 @@
           <label for="employeeEmail" class="form-label">Email</label>
           <input placeholder="email" type="email" class="form-control" id="employeeEmail" name="email">
           <div class="form-text">We'll never share your email with anyone else.</div>
-        </div>
+        </div>   
         <div class="col-sm-6">
           <label for="employeePassword" class="form-label">Password</label>
           <input placeholder="password" type="password" class="form-control" id="employeePassword" name="password">
@@ -32,25 +44,18 @@
           <label class="form-check-label" for="showPassword"><small style="color: gray;">Show Password</small></label>
         </div>
         <div class="col-sm-12">
-          <label for="select" class="form-label">Select Your Role:</label>
-          <select name="role" id="select" class="form-select" aria-label="Default select example">
-              <option selected value="employee">Employee</option>
-              <option value="admin">Admin</option>
-            </select>
-        </div>
-        <div class="col-sm-12">
-          <button title="signin and redirect to home" type="submit" class="btn btn-primary">Sign In</button>
+          <button title="signin and redirect to home" type="submit" class="btn btn-primary">Sign Up</button>
         </div>
 
       </form>
 
 
   </div>
-
-  <div class="redirect-signup-container">
+<!-- /* if user having account redirect to signIn page */ -->
+  <div class="redirect-container">
     <p>I have account? <a href="/signin">Sign In</a></p>
   </div>
-</div>
+</main>
 
 <script>
   function visiblePass() {

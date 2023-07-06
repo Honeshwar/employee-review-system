@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');//odm help to use mongodb
+//setup mongodb using mongoose as ODM b/w server and database
+const mongoose = require('mongoose');
 const env = require('./env');
 const connect = mongoose.connect(env.DEVELOPMENT.mongodbUrl);
 connect.then(()=>{

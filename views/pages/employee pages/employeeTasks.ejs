@@ -1,0 +1,55 @@
+<!-- <link rel="stylesheet" href="/css/employee styles/employeeTasks.css"> -->
+
+<main id="main">
+ 
+    <section id="list-of-tasks">
+       
+        <% if( locals.assignTasks.length === 0 ){ %>
+           <div id="no-data-container">
+            <img style="height: fit-content;" src="https://cdn-icons-png.flaticon.com/128/7486/7486754.png" alt="no data picture" >
+            <h4>All Tasks is Completed.</h4>
+           </div>
+          <%}else{%>
+           
+            <% for(let i=0;i<assignTasks.length;i++){ %>
+                <form class="card" action="/employee/tasks/completed" method="post">
+                    <!--hide, for to pass id in payload and pass to server-->
+                    <input type="hidden" name="taskId" value="<%= assignTasks[i].id %>">
+                    <h5 class="card-header">Assign Task: <%= i+1 %> </h5>
+                    <div class="card-body">
+                        <div class="mb-3">    
+                            <!-- reviewer = current user -->
+                            <input type="hidden" name="from" value="<%= assignTasks[i].reviewer.id %>" >
+                        </div>
+                        <div class="mb-3">
+                            <label for="Input2" class="form-label">To:</label>
+                            <% if(assignTasks[i].recipient === null){ %>
+                                <small style="color: red;">(user not exist)</small>
+                                <input type="text" class="form-control" id="Input2"
+                                value="(user not exist)"
+                                disabled >
+                              <% }else{  %>
+                                <input type="text" class="form-control" id="Input2"
+                                value="<%= assignTasks[i].recipient.name %>"
+                                disabled >
+                                <input type="hidden" name="to" value="<%= assignTasks[i].recipient.id %>" >
+                             <%  } %>
+                           
+    
+                        </div>
+                          <div class="mb-3">
+                            <label for="feedback" class="form-label">Performance  :</label>
+                            <textarea class="form-control" id="feedback" rows="3" name="feedback"  required placeholder="Write something here..."></textarea>
+                        </div>
+                        <% if(assignTasks[i].recipient === null){ %>
+                            <button type="submit" class="btn btn-primary" disabled>Complete Task</button>
+                        <% }else{  %>
+                            <button type="submit" class="btn btn-primary">Complete Task</button>
+                        <%  } %>
+                    </div>
+                </form>
+            <%}}%>   
+    </section>
+            
+ </main>
+        

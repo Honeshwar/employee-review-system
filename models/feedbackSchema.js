@@ -1,11 +1,6 @@
-const mongoose = require('mongoose');//all gagha one instance use that first import/require
+const mongoose = require('mongoose');
 
-const feedbackSchema = new mongoose.Schema({//user = admin + employees
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true,
-        ref:'User'
-    },
+const feedbackSchema = new mongoose.Schema({//user = admin , employees
     feedback:{
         type:String,
         required:true
@@ -13,16 +8,16 @@ const feedbackSchema = new mongoose.Schema({//user = admin + employees
     from:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
-        ref:'User'//i will populate to user using it
+        ref:'Employee' //mongoose will populate to Employee using this reference
     },
     to:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
-        ref:'User'//i will populate to user using it
+        ref:'Employee'//mongoose will populate to Employee using this reference
     },
     
 },{timestamps:true});
 
-const Feedback = mongoose.model('Feedback',feedbackSchema);//collection name
+const Feedback = mongoose.model('Feedback',feedbackSchema);
 
-module.exports = Feedback;//require return an Feedback model obj
+module.exports = Feedback;
