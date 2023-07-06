@@ -3,11 +3,11 @@
 <main id="main">
 
     <section id="list-of-feedbacks">
-        <%- include('../../partials/_listOfFeedbacks.ejs',{feedbacks:locals.feedbacks,feedbackWithoutPopulate,admin}) -%>
+        <%- include('../../partials/admin/_listOfFeedbacks.ejs',{feedbacks:locals.feedbacks,feedbackWithoutPopulate,admin}) -%>
     </section>
 
     <section id="feedback-modal-btn-container">
-      <%- include('../../partials/_addFeedbackModal.ejs',{employees}) -%>
+      <%- include('../../partials/admin/_addFeedbackModal.ejs',{employees}) -%>
     </section>
 
 </main>

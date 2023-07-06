@@ -16,21 +16,21 @@
           <form action="/signin" method="post">
             <div class="mb-3">
               <label for="email" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="email"
+              <input required type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="email"
                 name="email">
               <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="password" name="password">
+              <input required type="password" class="form-control" id="password" placeholder="password" name="password">
             </div>
             <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="showPassword" onclick="visiblePass()">
+              <input type="checkbox" class="form-check-input" id="showPassword" onclick="showPass()">
               <label class="form-check-label" for="showPassword">Show Password</label>
             </div>
             <div class="mb-3">
               <label for="select" class="form-label">Select Your Role:</label>
-              <select name="role" id="select" class="form-select" aria-label="Default select example">
+              <select name="role" id="select" class="form-select" aria-label="Default select example" required>
                   <option selected value="employee">Employee</option>
                   <option value="admin">Admin</option>
                 </select>
@@ -45,12 +45,12 @@
 </main>
 
 <script>
-  function visiblePass() {
-    var x = document.getElementById("password");
-    if (x.type === "password") {
-      x.type = "text";
+  function showPass() {
+    var password = document.getElementById("password");
+    if (password.type === "password") {
+      password.type = "text";
     } else {
-      x.type = "password";
+      password.type = "password";
     }
   }
 </script>

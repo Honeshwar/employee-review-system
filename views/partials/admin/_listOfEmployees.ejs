@@ -33,3 +33,16 @@
         <% count++;  } %>
     </div>
 <% } %>
+
+
+<script>
+  function updateEmployeeShowPass(e) {
+    let password = e.target.form[3];
+    console.log(e,e.type,password);
+      if (password.type === "password") {
+       password.type = "text";
+      } else {
+       password.type = "password";
+      }
+  }
+</script>

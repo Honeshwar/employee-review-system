@@ -33,7 +33,7 @@
               name="confirmPassword">
           </div>
           <div class="mb-3 form-check" style="margin-left: 20px;">
-            <input type="checkbox" class="form-check-input" id="showPassword-add" onclick="visiblePass('add')">
+            <input type="checkbox" class="form-check-input" id="showPassword-add" onclick="addEmployeeShowPass()">
             <label class="form-check-label" for="showPassword-add"><small style="color: gray;">Show Password</small></label>
           </div>
           <div class="col-md-12">
@@ -52,3 +52,17 @@
   </div>
   </div>
 </form>
+
+<script>
+  function addEmployeeShowPass() {
+      let password = document.getElementById("employeePassword-add");
+      let confirm_password = document.getElementById("employeeConfirmPassword-add");
+      if (password.type === "password") {
+        password.type = "text";
+        confirm_password.type = "text";
+      } else {
+        password.type = "password";
+        confirm_password.type = "password";
+      }
+  }
+</script>

@@ -21,12 +21,12 @@
                     <div class="form-text">We'll never share your email with anyone else.</div>
                   </div>
                   <div class="col-md-6">
-                    <label for="employeePassword-update" class="form-label">Password</label>
-                    <input required placeholder="password" type="password" class="form-control" id="employeePassword-update" name="password"  value="<%= employee.password%>">
+                    <label for="employeePassword-update-<%= employee.id%>" class="form-label">Password</label>
+                    <input required placeholder="password" type="password" class="form-control" id="employeePassword-update-<%= employee.id%>" name="password"  value="<%= employee.password%>">
                   </div>
                   <div class="mb-3 form-check" style="margin-left: 20px;">
-                    <input type="checkbox" class="form-check-input" id="showPassword-update" onclick="visiblePass('update')">
-                    <label class="form-check-label" for="showPassword-update"><small style="color: gray;">Show Password</small></label>
+                    <input type="checkbox" class="form-check-input" id="showPassword-update-<%= employee.id%>" onclick="updateEmployeeShowPass(event)">
+                    <label class="form-check-label" for="showPassword-update-<%= employee.id%>"><small style="color: gray;">Show Password</small></label>
                   </div>
                 </div>
           
@@ -38,3 +38,5 @@
       </div>
     </div>
   </form>
+
+
