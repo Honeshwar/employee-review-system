@@ -51,15 +51,9 @@ exports.addFeedback = async (req,res)=>{
 
             // creating new feedback
             const newFeedback = await Feedback.create({
-                user:findEmployee.id,// that user which belong to feedback(feedback of that person)
                 ...data
             });
 
-            //add in admin feedbacks array also
-            const findAdmin = await Employee.findById({});
-            findAdmin[0].feedbacks.push(newFeedback.id);
-            findAdmin[0].save();
-            
             //pushing to user feedbacks array(feedback field)
             findEmployee.feedbacks.push(newFeedback.id);
             findEmployee.save();
@@ -114,7 +108,6 @@ exports.completeAssignTask = async (req,res)=>{
 
             //create new feedback
             const newFeedback = await Feedback.create({
-                user:recipientId,// that user which belong to feedback(feedback of that person)
                 ...data
             });
             

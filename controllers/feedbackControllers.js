@@ -34,10 +34,6 @@ exports.addFeedback = async (req,res)=>{
                 ...data
             });
 
-            // const findAdmin = await Admin.findById({});
-            // findAdmin[0].feedbacks.push(newFeedback.id);
-            // findAdmin[0].save();
-
             const findEmployee = await Employee.findById(data.to);
             findEmployee.feedbacks.push(newFeedback.id);
             findEmployee.save();

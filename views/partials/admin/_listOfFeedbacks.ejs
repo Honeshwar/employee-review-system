@@ -6,12 +6,13 @@
    <%}else{%>
 
      <% for(let i=0;i<feedbacks.length;i++){ %>
-         <div class="card">
-             <h5 class="card-header">Feedback: <%= i+1 %> </h5>
-             <div class="card-body">
-             <h5 class="card-title">
-                 From: <% let isAdminFeedback = false;
-                 if(feedbacks[i].from === null){ 
+        <div class="card">
+            <h5 class="card-header">Feedback: <%= i+1 %> </h5>
+            <div class="card-body">
+            <h5 class="card-title">
+                From:
+              <% let isAdminFeedback = false;
+                  if(feedbacks[i].from === null){ 
                   const feedback = feedbackWithoutPopulate.find((feedback)=> feedback.id === feedbacks[i].id);
                   if(feedback.from.toString() === admin.id){
                     isAdminFeedback = true;
@@ -26,13 +27,15 @@
                   <% }else{  %>
                     <small style="color: red;">(user not exist)</small>
                     <% }}else{  %>
-                         <%= feedbacks[i].from.name %> 
-                         <small style="font-size: .7rem;"><i>(<%= feedbacks[i].from.role %>)</i></small>
-                        </h5>
-                   <%  } %>
-             <h5 class="card-title">To: <%= feedbacks[i].to.name %> 
+                        <%= feedbacks[i].from.name %> 
+                        <small style="font-size: .7rem;"><i>(<%= feedbacks[i].from.role %>)</i></small>
+                <%  } %>
+              </h5>
+            <h5 class="card-title">To: <%= feedbacks[i].to.name %> 
               <small style="font-size: .7rem;"><i>(<%= feedbacks[i].to.role %>)</i></small>
             </h5>
-             <p class="card-text">Review: <i><%= feedbacks[i].feedback %></i></p>
+            <p class="card-text">Review: <i><%= feedbacks[i].feedback %></i></p>
             <%- include('./_updateFeedbackModal.ejs',{feedback:feedbacks[i],isAdminFeedback}) -%>
+          </div>
+        </div>
  <%}}%>   

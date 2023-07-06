@@ -70,11 +70,6 @@ exports.deleteEmployee = async (req,res)=>{
    try {
         if(req.isAuthenticated() && req.user.role==="admin"){
             const employeeId = req.params.employeeId;
-            
-            // const findAdmin = await Admin.findById({}).populate({path:'feedbacks',populate:{path:'from to'}});
-            // const newAdminFeedbacks = findAdmin[0].feedbacks.filter((feedback)=>feedback.to.id !== employeeId);
-            // findAdmin[0].feedbacks = newAdminFeedbacks;
-            // findAdmin[0].save();
 
             //deleting  user from db and also assign task and feedback belong to user in db (assign task and feedback)
             await AssignTask.deleteMany({reviewer:employeeId});
@@ -120,7 +115,6 @@ exports.assignTask = async (req,res)=>{
         
             // if not exist than create new task and assign to reviewer/current session user
             const newAssignTask = await AssignTask.create({
-                user:reviewer.id,//user that belong to task
                 ...data,
             });
 
