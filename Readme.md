@@ -71,6 +71,7 @@ git --version
 
 ```go
 git clone  https://github.com/Honeshwar/employee-review-system
+cd employee-review-system
 ```
 
 3. Install dependencies :
