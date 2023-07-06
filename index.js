@@ -54,7 +54,7 @@ cookie:{
 },
 store: MongoStore.create(//using connect-mongo it create a schema and store a cooke in mongodb
     {
-        mongoUrl:env.DEVELOPMENT.mongodbUrlForSessionStore,
+        mongoUrl:env.DEVELOPMENT.mongodbUrl,
         autoRemove:'disabled',
         mongooseConnection: db,
         collectionName: "sessions",
