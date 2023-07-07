@@ -83,7 +83,7 @@ npm install
 4. Now, run the application using this command :
 
 ```go
-npm dev
+npm run dev
 ```
 
 # " Now , Website is running "
