@@ -18,7 +18,8 @@ exports.viewAllFeedback = async (req,res)=>{
         }
        return res.redirect('/signin');
     } catch (error) {
-    console.log('error while getting all Feedbacks',error);
+        console.log('error while getting all Feedbacks',error);
+        req.flash('error','error while getting all Feedbacks');
     return res.redirect('back');
 }
 }
@@ -43,7 +44,8 @@ exports.addFeedback = async (req,res)=>{
         }
         return res.redirect('/signin');
     } catch (error) {
-        console.log('error while getting all Feedbacks',error);
+        console.log('error while adding Feedback',error);
+        req.flash('error','error while adding Feedback');
         return res.redirect('back');
     }
 }
@@ -62,7 +64,8 @@ exports.updateFeedback = async (req,res)=>{
         }
         return res.redirect('/signin');
     } catch (error) {
-        console.log('error while getting all Feedbacks',error);
+        console.log('error while updating Feedback',error);
+        req.flash('error','error while updating Feedback');
         return res.redirect('back');
     }
 }

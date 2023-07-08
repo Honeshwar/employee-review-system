@@ -18,7 +18,8 @@ exports.dashboard = async (req,res)=>{
         }
         return res.redirect('/signin');
    } catch (error) {
-    console.log("error while adding user/employee",error);
+       console.log("error while finding user/employee in DB",error);
+       req.flash('error',"error while finding user/employee in DB!!!");
     return res.redirect('back');
    }
 }
@@ -42,7 +43,8 @@ exports.addEmployee = async (req,res)=>{
     }
     return res.redirect('/signin');
    } catch (error) {
-    console.log("error while adding user/employee",error);
+       console.log("error while adding user/employee",error);
+       req.flash('error',"eerror while adding user/employee!!!");
     return res.redirect('back');
    }
 }
@@ -61,6 +63,7 @@ exports.updateEmployee = async (req,res)=>{
          return res.redirect('/signin');     
     } catch (error) {
         console.log("error while updating user",error);
+        req.flash('error',"error while updating user!!!");
         return res.redirect('back');
        }
 }
@@ -81,7 +84,8 @@ exports.deleteEmployee = async (req,res)=>{
         }
         return res.redirect('/signin');  
     } catch (error) {
-       console.log("error while delete user",error);
+        console.log("error while delete user",error);
+        req.flash('error',"error while delete user!!!");
        return res.redirect('back');
    }
 }
@@ -127,6 +131,7 @@ exports.assignTask = async (req,res)=>{
          return res.redirect('/signin');
     } catch (error) {
         console.log("error while assign review to user",error);
+        req.flash('error',"rror while assign review to user!!!");
         return res.redirect('back');
     }
 }
@@ -152,6 +157,7 @@ exports.makeAdmin = async (req,res)=>{
         return res.redirect('/signin');   
     } catch (error) {
         console.log("error while assign making admin to an employee to user",error);
+        req.flash('error',"error while assign making admin to an employee to user!!!");
         return res.redirect('back');
     }
 }

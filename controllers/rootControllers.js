@@ -61,6 +61,7 @@ exports.signIn = async function signIn(req,res) {
         // failure will be handle by passport MW add in signIn route
     } catch (error) {
         console.log("error will signin",error);
+        req.flash('error',"error while submitting signIn form!!!");
         return res.redirect('back');
     }
 }
@@ -134,6 +135,7 @@ exports.signUp = async function signUp(req,res) {
         return res.redirect('/signin');
     } catch (error) {
          console.log('error while submitting signUp form',error);
+        req.flash('error',"error while submitting signUp form!!!");
          return  res.redirect('/back');
     }
 }
@@ -145,6 +147,7 @@ exports.signOut = (req,res)=>{
     req.logout(function(err) {
             if (err) { 
                 console.log(err);
+                req.flash('error',"error while sign out!!!");
                 return res.redirect('back')
             }
             

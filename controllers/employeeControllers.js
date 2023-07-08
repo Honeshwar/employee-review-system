@@ -37,7 +37,8 @@ exports.employeeDashboard = async (req,res)=>{
         }
         return res.redirect('/signin');        
     } catch (error) {
-        console.log("error while finding user/employee",error);
+        console.log("error while finding user/employee in DB",error);
+        req.flash('error',"error while finding user/employee in DB!!!");
         return res.redirect('back');
     }
 }
@@ -64,6 +65,7 @@ exports.addFeedback = async (req,res)=>{
         return res.redirect('/signin');  
     } catch (error) {
         console.log('error while adding  Feedback',error);
+        req.flash('error',"error while adding  Feedback!!!");
         return res.redirect('back');
     }
 
@@ -91,7 +93,8 @@ exports.getTasks = async (req,res)=>{
         }
         return res.redirect('/signin');  
     } catch (error) {
-        console.log('error while adding  Feedback',error);
+        console.log('error while finding tasks in DB',error);
+        req.flash('error',"error while finding tasks in DB!!!");
         return res.redirect('back');
     }
 
@@ -129,6 +132,7 @@ exports.completeAssignTask = async (req,res)=>{
         return res.redirect('/signin'); 
     } catch (error) {
         console.log('error while completeAssignTask controller ',error);
+        req.flash('error',"error while complete Assign Task !!");
         return res.redirect('back');
     }
 
